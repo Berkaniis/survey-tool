@@ -29,8 +29,8 @@ class AuditLog(SQLModel, table=True):
     # For system actions (automated processes)
     system_user: Optional[str] = Field(max_length=100)
     
-    class Config:
-        schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "action": "CAMPAIGN_CREATED",
                 "entity_type": "Campaign",
@@ -42,3 +42,4 @@ class AuditLog(SQLModel, table=True):
                 "ip_address": "192.168.1.100"
             }
         }
+    }

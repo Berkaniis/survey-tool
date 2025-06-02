@@ -33,8 +33,8 @@ class Contact(SQLModel, table=True):
         sa_column=Column(JSON)
     )
     
-    class Config:
-        schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "email": "john.doe@company.com",
                 "first_name": "John",
@@ -45,6 +45,7 @@ class Contact(SQLModel, table=True):
                 }
             }
         }
+    }
 
 
 class CampaignContact(SQLModel, table=True):

@@ -40,7 +40,7 @@ class AuthService:
         
     def create_user(self, email: str, password: str, role: UserRole = UserRole.OPERATOR) -> User:
         """Create a new user."""
-        with Session(get_session()) as session:
+        for session in get_session():
             # Check if user already exists
             existing_user = session.exec(
                 select(User).where(User.email == email)
@@ -74,7 +74,7 @@ class AuthService:
             
     def authenticate(self, email: str, password: str, ip_address: str = None) -> Dict[str, Any]:
         """Authenticate a user and return session data."""
-        with Session(get_session()) as session:
+        for session in get_session():
             user = session.exec(
                 select(User).where(User.email == email)
             ).first()
@@ -149,7 +149,7 @@ class AuthService:
             
     def create_session(self, user_id: int, ip_address: str = None) -> str:
         """Create a new user session."""
-        with Session(get_session()) as session:
+        for session in get_session():
             # Generate secure session token
             session_token = secrets.token_urlsafe(32)
             
@@ -168,7 +168,7 @@ class AuthService:
             
     def validate_session(self, session_token: str) -> Optional[User]:
         """Validate a session token and return the user."""
-        with Session(get_session()) as session:
+        for session in get_session():
             user_session = session.exec(
                 select(UserSession).where(UserSession.session_token == session_token)
             ).first()
@@ -199,7 +199,7 @@ class AuthService:
             
     def logout(self, session_token: str) -> bool:
         """Logout user by invalidating session."""
-        with Session(get_session()) as session:
+        for session in get_session():
             user_session = session.exec(
                 select(UserSession).where(UserSession.session_token == session_token)
             ).first()
@@ -222,7 +222,7 @@ class AuthService:
             
     def change_password(self, user_id: int, old_password: str, new_password: str) -> bool:
         """Change user password."""
-        with Session(get_session()) as session:
+        for session in get_session():
             user = session.get(User, user_id)
             
             if not user:
@@ -250,7 +250,7 @@ class AuthService:
             
     def cleanup_expired_sessions(self) -> int:
         """Clean up expired sessions and return count of deleted sessions."""
-        with Session(get_session()) as session:
+        for session in get_session():
             expired_sessions = session.exec(
                 select(UserSession).where(UserSession.expires_at < datetime.utcnow())
             ).all()

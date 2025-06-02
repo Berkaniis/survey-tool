@@ -30,7 +30,7 @@ class AuditService:
         """Log an action to the audit trail."""
         
         try:
-            with Session(get_session()) as session:
+            with next(get_session()) as session:
                 audit_entry = AuditLog(
                     user_id=user_id,
                     action=action,

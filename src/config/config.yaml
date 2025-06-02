@@ -1,0 +1,54 @@
+application:
+  name: "Customer Satisfaction Survey Tool"
+  version: "1.0.0"
+  environment: "production"
+
+database:
+  path: "./data.db"
+  backup_enabled: true
+  backup_retention_days: 30
+  wal_mode: true
+
+email:
+  provider: "outlook_com"  # outlook_com | graph_api
+  throttle:
+    rate: 30
+    per_minute: true
+  retry:
+    max_attempts: 3
+    backoff_factor: 5  # seconds
+  default_sender: "surveys@company.com"
+  
+logging:
+  level: "INFO"  # DEBUG | INFO | WARNING | ERROR
+  file_path: "./logs/app.log"
+  rotation: "daily"
+  retention_days: 7
+  max_size_mb: 100
+
+security:
+  session_timeout_minutes: 480  # 8 hours
+  password_min_length: 8
+  require_special_chars: true
+  max_login_attempts: 5
+  lockout_duration_minutes: 30
+
+onedrive:
+  enabled: true
+  max_file_size_mb: 50
+  timeout_seconds: 300
+  proxy: null  # Optional: "http://proxy:8080"
+
+ui:
+  default_language: "en"
+  available_languages: ["en", "fr", "de", "es"]
+  theme: "light"  # light | dark | system
+  items_per_page: 25
+
+# Performance settings
+performance:
+  max_contacts_per_campaign: 100000
+  max_campaigns: 1000
+  excel_chunk_size: 1000
+  max_excel_rows: 50000
+  max_file_size_mb: 50

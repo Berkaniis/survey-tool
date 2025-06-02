@@ -28,14 +28,15 @@ class User(SQLModel, table=True):
     locked_until: Optional[datetime] = Field(default=None)
     password_changed_at: datetime = Field(default_factory=datetime.utcnow)
     
-    class Config:
-        schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "email": "admin@company.com",
                 "role": "ADMIN",
                 "is_active": True
             }
         }
+    }
 
 
 class UserSession(SQLModel, table=True):

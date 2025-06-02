@@ -22,11 +22,45 @@ class ContactService:
     
     def __init__(self):
         self.audit_service = AuditService()
+    
+    def create_contact(self, email: str, first_name: str = None, last_name: str = None, 
+                      extra_data: Dict[str, Any] = None) -> Contact:
+        """Create a new contact."""
+        for session in get_session():
+            contact = Contact(
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                extra_data=extra_data or {}
+            )
+            
+            session.add(contact)
+            session.commit()
+            session.refresh(contact)
+            
+            logger.info(f"Contact created: {email} (ID: {contact.id})")
+            return contact
+    
+    def search_contacts(self, query: str, limit: int = 50) -> List[Contact]:
+        """Search contacts by email or name."""
+        for session in get_session():
+            search_pattern = f"%{query.lower()}%"
+            contacts = session.exec(
+                select(Contact).where(
+                    or_(
+                        Contact.email.ilike(search_pattern),
+                        Contact.first_name.ilike(search_pattern),
+                        Contact.last_name.ilike(search_pattern)
+                    )
+                ).limit(limit)
+            ).all()
+            
+            return list(contacts)
         
     def get_or_create_contact(self, email: str, first_name: str = None, last_name: str = None, 
                             extra_data: Dict[str, Any] = None) -> Contact:
         """Get existing contact or create new one."""
-        with Session(get_session()) as session:
+        for session in get_session():
             # Try to find existing contact
             contact = session.exec(
                 select(Contact).where(Contact.email == email)
@@ -70,7 +104,7 @@ class ContactService:
     def add_contact_to_campaign(self, contact_id: int, campaign_id: int, 
                               custom_data: Dict[str, Any] = None) -> CampaignContact:
         """Add a contact to a campaign."""
-        with Session(get_session()) as session:
+        for session in get_session():
             # Check if association already exists
             existing = session.exec(
                 select(CampaignContact).where(
@@ -106,7 +140,7 @@ class ContactService:
     def bulk_add_contacts_to_campaign(self, campaign_id: int, contacts_data: List[Dict[str, Any]], 
                                     mode: MergeMode = MergeMode.REPLACE, user_id: int = None) -> Dict[str, int]:
         """Bulk add contacts to a campaign."""
-        with Session(get_session()) as session:
+        for session in get_session():
             stats = {
                 "added": 0,
                 "updated": 0,
@@ -201,7 +235,7 @@ class ContactService:
                             status: ContactStatus, user_id: int = None,
                             error_message: str = None) -> bool:
         """Update contact status in a campaign."""
-        with Session(get_session()) as session:
+        for session in get_session():
             campaign_contact = session.exec(
                 select(CampaignContact).where(
                     and_(
@@ -258,7 +292,7 @@ class ContactService:
     def search_contacts(self, campaign_id: int, query: str = None, 
                        status: ContactStatus = None, limit: int = 100) -> List[Dict[str, Any]]:
         """Search contacts in a campaign."""
-        with Session(get_session()) as session:
+        for session in get_session():
             # Build base query
             base_query = select(
                 Contact, CampaignContact
@@ -307,7 +341,7 @@ class ContactService:
             
     def get_campaign_contact_stats(self, campaign_id: int) -> Dict[str, int]:
         """Get contact statistics for a campaign."""
-        with Session(get_session()) as session:
+        for session in get_session():
             stats = {}
             
             # Count by status

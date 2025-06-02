@@ -47,8 +47,8 @@ class EmailTemplate(SQLModel, table=True):
         description="Available variables and their descriptions"
     )
     
-    class Config:
-        schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "name": "Customer Satisfaction Survey",
                 "subject": "Help us improve - {first_name}",
@@ -61,6 +61,7 @@ class EmailTemplate(SQLModel, table=True):
                 }
             }
         }
+    }
 
 
 class SendWave(SQLModel, table=True):

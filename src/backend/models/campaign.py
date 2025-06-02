@@ -28,7 +28,7 @@ class Campaign(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     
     # JSON metadata field for flexible campaign data
-    metadata: Optional[Dict[str, Any]] = Field(
+    campaign_metadata: Optional[Dict[str, Any]] = Field(
         default=None, 
         sa_column=Column(JSON)
     )
@@ -41,8 +41,8 @@ class Campaign(SQLModel, table=True):
     bounced_count: int = Field(default=0)
     opted_out_count: int = Field(default=0)
     
-    class Config:
-        schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "example": {
                 "title": "Q4 2023 Customer Satisfaction",
                 "launch_date": "2023-12-01",
@@ -50,3 +50,4 @@ class Campaign(SQLModel, table=True):
                 "status": "DRAFT"
             }
         }
+    }

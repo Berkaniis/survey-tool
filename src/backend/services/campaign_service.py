@@ -35,7 +35,7 @@ class CampaignService:
     def create_campaign(self, title: str, owner_id: int, launch_date: date = None,
                        default_language: str = "en", metadata: Dict[str, Any] = None) -> Campaign:
         """Create a new campaign."""
-        with Session(get_session()) as session:
+        for session in get_session():
             campaign = Campaign(
                 title=title,
                 owner_id=owner_id,
@@ -65,13 +65,13 @@ class CampaignService:
             
     def get_campaign(self, campaign_id: int) -> Optional[Campaign]:
         """Get a campaign by ID."""
-        with Session(get_session()) as session:
+        for session in get_session():
             return session.get(Campaign, campaign_id)
             
     def list_campaigns(self, owner_id: int = None, status: CampaignStatus = None,
                       limit: int = 100, offset: int = 0) -> List[Campaign]:
         """List campaigns with optional filters."""
-        with Session(get_session()) as session:
+        for session in get_session():
             query = select(Campaign)
             
             if owner_id:
@@ -86,7 +86,7 @@ class CampaignService:
             
     def update_campaign(self, campaign_id: int, user_id: int, **updates) -> Optional[Campaign]:
         """Update a campaign."""
-        with Session(get_session()) as session:
+        for session in get_session():
             campaign = session.get(Campaign, campaign_id)
             
             if not campaign:
@@ -217,7 +217,7 @@ class CampaignService:
             )
             
             # Update campaign status
-            with Session(get_session()) as session:
+            for session in get_session():
                 campaign = session.get(Campaign, campaign_id)
                 if campaign and campaign.status == CampaignStatus.DRAFT:
                     campaign.status = CampaignStatus.ACTIVE
@@ -281,18 +281,14 @@ class CampaignService:
         """Get comprehensive statistics for a campaign."""
         contact_stats = self.contact_service.get_campaign_contact_stats(campaign_id)
         
-        with Session(get_session()) as session:
+        for session in get_session():
             campaign = session.get(Campaign, campaign_id)
             
             if not campaign:
                 return {}
                 
-            # Get send wave count
-            wave_count = session.exec(
-                select(func.count()).select_from(
-                    select().distinct().where()
-                )
-            ).first() or 0
+            # Get send wave count (placeholder for now)
+            wave_count = 0  # TODO: Implement when SendWave table is available
             
             return {
                 "campaign_info": {
@@ -311,7 +307,7 @@ class CampaignService:
             
     def export_campaign_results(self, campaign_id: int, format: str = "xlsx") -> str:
         """Export campaign results to file."""
-        with Session(get_session()) as session:
+        for session in get_session():
             # Get campaign data with contacts
             query = select(
                 Contact.email,
@@ -368,7 +364,7 @@ class CampaignService:
             
     def delete_campaign(self, campaign_id: int, user_id: int) -> bool:
         """Delete a campaign and all associated data."""
-        with Session(get_session()) as session:
+        for session in get_session():
             campaign = session.get(Campaign, campaign_id)
             
             if not campaign:

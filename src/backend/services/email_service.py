@@ -77,7 +77,7 @@ class EmailService:
         self.processing_thread = None
         
         # Rate limiting (30 emails per minute by default)
-        self.rate_limiter = RateLimiter(rate=30, per=60)
+        self.rate_limiter = RateLimiter(rate=30, per_seconds=60)
         
         # Retry settings
         self.max_retries = 3

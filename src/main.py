@@ -9,6 +9,10 @@ import os
 import logging
 import argparse
 from pathlib import Path
+import http.server
+import socketserver
+import threading
+import webbrowser
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
@@ -349,9 +353,9 @@ def create_default_user():
         # Check if any users exist
         from backend.database import get_session
         from backend.models.user import User, UserRole
-        from sqlmodel import Session, select
+        from sqlmodel import select
         
-        with Session(get_session()) as session:
+        for session in get_session():
             existing_user = session.exec(select(User)).first()
             
             if not existing_user:
@@ -367,6 +371,47 @@ def create_default_user():
                 
     except Exception as e:
         print(f"Error creating default user: {e}")
+
+
+def start_web_server(port=8080):
+    """Start a simple HTTP server for web interface."""
+    frontend_path = Path(__file__).parent / 'frontend' / 'web'
+    
+    if not frontend_path.exists():
+        print(f"Frontend not found at: {frontend_path}")
+        return False
+    
+    # Change to frontend directory
+    os.chdir(frontend_path)
+    
+    class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+        def end_headers(self):
+            self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            self.send_header('Pragma', 'no-cache')
+            self.send_header('Expires', '0')
+            super().end_headers()
+    
+    try:
+        with socketserver.TCPServer(("", port), CustomHTTPRequestHandler) as httpd:
+            print(f"Server starting at http://localhost:{port}")
+            print("Press Ctrl+C to stop the server")
+            
+            # Try to open browser
+            try:
+                webbrowser.open(f"http://localhost:{port}")
+            except:
+                pass
+            
+            httpd.serve_forever()
+    except OSError as e:
+        if e.errno == 98:  # Address already in use
+            print(f"Port {port} is already in use. Try a different port with --port")
+        else:
+            print(f"Failed to start server: {e}")
+        return False
+    except KeyboardInterrupt:
+        print("\nServer stopped")
+        return True
 
 
 def main():
@@ -395,35 +440,46 @@ def main():
         
         # Create API instance
         api = SurveyToolAPI(config)
+        logger.info("Survey Tool API initialized")
         
-        # Determine frontend path
-        frontend_path = Path(__file__).parent / 'frontend' / 'web' / 'index.html'
-        
-        if not frontend_path.exists():
-            logger.error(f"Frontend not found at: {frontend_path}")
-            sys.exit(1)
-            
-        # Create PyWebView window
-        window = webview.create_window(
-            title=config.get('application', {}).get('name', 'Survey Tool'),
-            url=str(frontend_path),
-            js_api=api,
-            width=1280,
-            height=800,
-            min_size=(1024, 600),
-            resizable=True,
-            fullscreen=False,
-            shadow=True,
-            maximized=False
-        )
-        
-        # Start the application
-        logger.info("Starting PyWebView...")
-        webview.start(
-            debug=args.debug,
-            port=args.port,
-            private_mode=False  # Allow localStorage for settings
-        )
+        # Check if web server mode is requested
+        if args.port > 0:
+            logger.info(f"Starting web server mode on port {args.port}")
+            start_web_server(args.port)
+        else:
+            # Try PyWebView mode (desktop)
+            try:
+                # Determine frontend path
+                frontend_path = Path(__file__).parent / 'frontend' / 'web' / 'index.html'
+                
+                if not frontend_path.exists():
+                    logger.error(f"Frontend not found at: {frontend_path}")
+                    sys.exit(1)
+                    
+                # Create PyWebView window
+                window = webview.create_window(
+                    title=config.get('application', {}).get('name', 'Survey Tool'),
+                    url=str(frontend_path),
+                    js_api=api,
+                    width=1280,
+                    height=800,
+                    min_size=(1024, 600),
+                    resizable=True,
+                    fullscreen=False,
+                    shadow=True,
+                    maximized=False
+                )
+                
+                # Start the application
+                logger.info("Starting PyWebView...")
+                webview.start(
+                    debug=args.debug,
+                    private_mode=False  # Allow localStorage for settings
+                )
+            except Exception as e:
+                logger.warning(f"PyWebView failed: {e}")
+                logger.info("Falling back to web server mode on port 8080")
+                start_web_server(8080)
         
     except KeyboardInterrupt:
         logger.info("Application interrupted by user")

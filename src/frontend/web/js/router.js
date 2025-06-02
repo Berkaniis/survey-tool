@@ -22,6 +22,7 @@ class Router {
         this.addRoute('/campaigns/:id', (params) => this.renderView('CampaignDetail', params));
         this.addRoute('/templates', () => this.renderView('Templates'));
         this.addRoute('/settings', () => this.renderView('Settings'));
+        this.addRoute('/profile', () => this.renderView('Profile'));
         this.addRoute('/import/:campaignId', (params) => this.renderView('ImportWizard', params));
     }
     
