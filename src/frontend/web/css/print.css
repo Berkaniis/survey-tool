@@ -1,0 +1,73 @@
+/* Print styles */
+@media print {
+    * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+    
+    .app-header,
+    .header-actions,
+    .nav-link,
+    .btn,
+    .dropdown-menu,
+    #toast-container,
+    #loading-overlay,
+    .loading-container {
+        display: none !important;
+    }
+    
+    .app-main {
+        padding: 0;
+    }
+    
+    .card {
+        border: 1px solid #000;
+        page-break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+    
+    .table {
+        border-collapse: collapse;
+    }
+    
+    .table th,
+    .table td {
+        border: 1px solid #000;
+        padding: 0.25rem;
+    }
+    
+    .table th {
+        background: #f0f0f0 !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+    
+    .stats-grid {
+        display: block;
+    }
+    
+    .stat-card {
+        display: inline-block;
+        width: 48%;
+        margin-right: 2%;
+        margin-bottom: 1rem;
+        page-break-inside: avoid;
+    }
+    
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+    }
+    
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Satisfaction Survey Tool</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/dark-theme.css" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="css/print.css" media="print">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body>
+    <!-- Skip navigation for accessibility -->
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <svg class="header-logo" width="32" height="32" viewBox="0 0 32 32">
+                <rect width="32" height="32" rx="6" fill="#4f46e5"/>
+                <path d="M8 12h16v2H8zm0 4h12v2H8zm0 4h16v2H8z" fill="white"/>
+            </svg>
+            <h1 class="header-title">Survey Tool</h1>
+        </div>
+        
+        <nav class="header-nav" role="navigation" aria-label="Main navigation">
+            <a href="#/dashboard" class="nav-link active" data-route="dashboard">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 20 20">
+                    <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"/>
+                    <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"/>
+                </svg>
+                <span data-i18n="nav.dashboard">Dashboard</span>
+            </a>
+            <a href="#/campaigns" class="nav-link" data-route="campaigns">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 20 20">
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6.5a2 2 0 01-2 2H6a2 2 0 01-2-2V5z"/>
+                </svg>
+                <span data-i18n="nav.campaigns">Campaigns</span>
+            </a>
+            <a href="#/templates" class="nav-link" data-route="templates">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 20 20">
+                    <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5z"/>
+                    <path d="M6 7h8v2H6V7zm0 4h6v2H6v-2z"/>
+                </svg>
+                <span data-i18n="nav.templates">Templates</span>
+            </a>
+            <a href="#/settings" class="nav-link" data-route="settings">
+                <svg class="nav-icon" width="20" height="20" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"/>
+                </svg>
+                <span data-i18n="nav.settings">Settings</span>
+            </a>
+        </nav>
+        
+        <div class="header-actions">
+            <button class="btn-icon theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                </svg>
+            </button>
+            <select class="language-selector" aria-label="Select language">
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="es">Español</option>
+            </select>
+            <div class="user-menu">
+                <button class="user-avatar" aria-label="User menu">
+                    <span class="avatar-text">U</span>
+                </button>
+                <div class="dropdown-menu">
+                    <div class="user-info">
+                        <span class="user-email">user@company.com</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                    <hr>
+                    <a href="#/profile" class="dropdown-item">
+                        <svg width="16" height="16" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 00-11.215 0c-.22.578.254 1.139.872 1.139h9.47z"/>
+                        </svg>
+                        <span data-i18n="user.profile">Profile</span>
+                    </a>
+                    <button class="dropdown-item logout-btn">
+                        <svg width="16" height="16" viewBox="0 0 16 16">
+                            <path d="M3 3a1 1 0 00-1 1v8a1 1 0 001 1h4.5a.5.5 0 000-1H3V4h4.5a.5.5 0 000-1H3z"/>
+                            <path d="M14 8a.5.5 0 00-.5-.5H9.707l1.647-1.646a.5.5 0 00-.708-.708l-2.5 2.5a.5.5 0 000 .708l2.5 2.5a.5.5 0 00.708-.708L9.707 8.5H13.5A.5.5 0 0014 8z"/>
+                        </svg>
+                        <span data-i18n="user.logout">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main content area -->
+    <main id="main-content" class="app-main">
+        <!-- Loading state -->
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p data-i18n="common.loading">Loading...</p>
+        </div>
+    </main>
+    
+    <!-- Notification container -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+    
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p class="loading-text" data-i18n="common.loading">Loading...</p>
+        </div>
+    </div>
+    
+    <!-- Confirm dialog -->
+    <div id="confirm-dialog" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" data-i18n="common.confirm">Confirm</h3>
+                <button class="modal-close" aria-label="Close dialog">
+                    <svg width="20" height="20" viewBox="0 0 20 20">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="confirm-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary cancel-btn" data-i18n="common.cancel">Cancel</button>
+                <button class="btn btn-danger confirm-btn" data-i18n="common.confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="libs/marked.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/components/Toast.js"></script>
+    <script src="js/components/Modal.js"></script>
+    <script src="js/components/DataTable.js"></script>
+    <script src="js/components/FileUpload.js"></script>
+    <script src="js/views/Dashboard.js"></script>
+    <script src="js/views/Campaigns.js"></script>
+    <script src="js/views/Templates.js"></script>
+    <script src="js/views/Settings.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

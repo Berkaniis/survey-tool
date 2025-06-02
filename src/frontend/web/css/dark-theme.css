@@ -1,0 +1,135 @@
+/* Dark theme overrides */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --gray-50: #0f172a;
+        --gray-100: #1e293b;
+        --gray-200: #334155;
+        --gray-300: #475569;
+        --gray-400: #64748b;
+        --gray-500: #94a3b8;
+        --gray-600: #cbd5e1;
+        --gray-700: #e2e8f0;
+        --gray-800: #f1f5f9;
+        --gray-900: #f8fafc;
+    }
+    
+    body {
+        background-color: var(--gray-50);
+        color: var(--gray-900);
+    }
+    
+    .app-header {
+        background-color: var(--gray-100);
+        border-bottom-color: var(--gray-200);
+    }
+    
+    .card,
+    .table-container,
+    .stat-card {
+        background-color: var(--gray-100);
+        border-color: var(--gray-200);
+    }
+    
+    .card-header,
+    .card-footer,
+    .table th {
+        background-color: var(--gray-200);
+    }
+    
+    .form-control {
+        background-color: var(--gray-100);
+        border-color: var(--gray-300);
+        color: var(--gray-900);
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-500);
+        background-color: var(--gray-100);
+    }
+    
+    .btn-secondary {
+        background-color: var(--gray-100);
+        border-color: var(--gray-300);
+        color: var(--gray-800);
+    }
+    
+    .btn-secondary:hover:not(:disabled) {
+        background-color: var(--gray-200);
+    }
+    
+    .dropdown-menu {
+        background-color: var(--gray-100);
+        border-color: var(--gray-200);
+    }
+    
+    .loading-content {
+        background-color: var(--gray-100);
+    }
+}
+
+/* Manual dark theme toggle */
+[data-theme="dark"] {
+    --gray-50: #0f172a;
+    --gray-100: #1e293b;
+    --gray-200: #334155;
+    --gray-300: #475569;
+    --gray-400: #64748b;
+    --gray-500: #94a3b8;
+    --gray-600: #cbd5e1;
+    --gray-700: #e2e8f0;
+    --gray-800: #f1f5f9;
+    --gray-900: #f8fafc;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--gray-50);
+    color: var(--gray-900);
+}
+
+[data-theme="dark"] .app-header {
+    background-color: var(--gray-100);
+    border-bottom-color: var(--gray-200);
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .table-container,
+[data-theme="dark"] .stat-card {
+    background-color: var(--gray-100);
+    border-color: var(--gray-200);
+}
+
+[data-theme="dark"] .card-header,
+[data-theme="dark"] .card-footer,
+[data-theme="dark"] .table th {
+    background-color: var(--gray-200);
+}
+
+[data-theme="dark"] .form-control {
+    background-color: var(--gray-100);
+    border-color: var(--gray-300);
+    color: var(--gray-900);
+}
+
+[data-theme="dark"] .form-control:focus {
+    border-color: var(--primary-500);
+    background-color: var(--gray-100);
+}
+
+[data-theme="dark"] .btn-secondary {
+    background-color: var(--gray-100);
+    border-color: var(--gray-300);
+    color: var(--gray-800);
+}
+
+[data-theme="dark"] .btn-secondary:hover:not(:disabled) {
+    background-color: var(--gray-200);
+}
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--gray-100);
+    border-color: var(--gray-200);
+}
+
+[data-theme="dark"] .loading-content {
+    background-color: var(--gray-100);
+}
