@@ -38,7 +38,7 @@ Application desktop autonome pour la gestion d'enquêtes de satisfaction client 
 
 ```bash
 # 1. Cloner le repository
-git clone https://github.com/votre-username/survey-tool.git
+git clone https://github.com/Berkaniis/survey-tool.git
 cd survey-tool
 
 # 2. Configuration automatique
@@ -52,7 +52,7 @@ python scripts/dev.py run
 
 ```bash
 # 1. Cloner le repository
-git clone https://github.com/votre-username/survey-tool.git
+git clone https://github.com/Berkaniis/survey-tool.git
 cd survey-tool
 
 # 2. Créer l'environnement virtuel
@@ -312,7 +312,7 @@ Les logs se trouvent dans :
 
 1. Consulter les logs d'erreur
 2. Vérifier la [documentation](QUICKSTART.md)
-3. Ouvrir une [issue](https://github.com/votre-username/survey-tool/issues)
+3. Ouvrir une [issue](https://github.com/Berkaniis/survey-tool/issues)
 
 ## 📈 Performance
 
@@ -344,8 +344,8 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ## 📞 Contact
 
-- **Projet** : [survey-tool](https://github.com/votre-username/survey-tool)
-- **Issues** : [GitHub Issues](https://github.com/votre-username/survey-tool/issues)
+- **Projet** : [survey-tool](https://github.com/Berkaniis/survey-tool)
+- **Issues** : [GitHub Issues](https://github.com/Berkaniis/survey-tool/issues)
 - **Documentation** : [Guide de démarrage](QUICKSTART.md)
 
 ---
